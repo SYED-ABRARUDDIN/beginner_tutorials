@@ -11,7 +11,7 @@ $ echo "source /opt/ros/humble/setup.bash"
 # Go your ros2 workspace
 $ cd ~/ros2_ws/src
 #Clone the repository
-$ git clone git@github.com:vinay-lanka/beginner_tutorials.git
+$ git clone https://github.com/SYED-ABRARUDDIN/beginner_tutorials.git
 #Go back to the ws directory
 $ cd ~/ros2_ws
 # Install rosdep dependencies before building the package
