@@ -13,7 +13,7 @@ $ cd ~/ros2_ws/src
 #Clone the repository
 $ git clone https://github.com/SYED-ABRARUDDIN/beginner_tutorials.git
 #Go back to the ws directory
-$ cd ~/ros2_ws
+$ source install/setup.bash
 # Run the publisher in terminal#1
 ros2 run beginner_tutorials talker
 # Run the subscriber in terminal#2 (Split the terminal and source ROS2 and the workspace setup.bash)
@@ -24,7 +24,7 @@ ros2 run beginner_tutorials listener
 ```bash
 $ source /opt/ros/humble/setup.bash
 $ cd ~/ros_ws
-$ source ./install/setup.bash
+$ source install/setup.bash
 # Run the publisher in terminal#1
 $ ros2 launch beginner_tutorials service_launch.py publish_freq:=500
 # Run the subscriber in terminal#2 (Split the terminal and source ROS2 and the workspace setup.bash)
