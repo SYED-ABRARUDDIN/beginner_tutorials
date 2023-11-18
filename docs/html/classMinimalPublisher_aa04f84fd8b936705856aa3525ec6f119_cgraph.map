@@ -1,0 +1,5 @@
+<map id="MinimalPublisher::MinimalPublisher" name="MinimalPublisher::MinimalPublisher">
+<area shape="rect" id="node1" title="Constructor for the MinimalPublisher class." alt="" coords="5,39,201,80"/>
+<area shape="rect" id="node2" href="$classMinimalPublisher.html#a2ee710fed55eb1872e2d876e06b82685" title="Service callback function to modify strings based on service requests." alt="" coords="249,5,437,47"/>
+<area shape="rect" id="node3" href="$classMinimalPublisher.html#a6019391d2635ca5b3a9b8409151806c3" title="Timer callback function, publishing custom messages periodically." alt="" coords="254,71,433,112"/>
+</map>

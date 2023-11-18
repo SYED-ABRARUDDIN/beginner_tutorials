@@ -1,6 +1,6 @@
 # ROS 2 Beginner Tutorials - ENPM808X Week-9
 
-Publisher subscriber package for the ROS2 beginner tutorials 
+Services on Publisher subscriber package for the ROS2 beginner tutorials 
 **Abraruddin Syed** (120109997) 
 
 
@@ -14,18 +14,25 @@ $ cd ~/ros2_ws/src
 $ git clone https://github.com/SYED-ABRARUDDIN/beginner_tutorials.git
 #Go back to the ws directory
 $ cd ~/ros2_ws
-# Install rosdep dependencies before building the package
-rosdep install -i --from-path src --rosdistro humble -y
-# Build the package using colcon build
-colcon build --packages-select beginner_tutorials
-# After successfull build source the package
-$ source ./install/setup.bash
-
 # Run the publisher in terminal#1
 ros2 run beginner_tutorials talker
 # Run the subscriber in terminal#2 (Split the terminal and source ROS2 and the workspace setup.bash)
 ros2 run beginner_tutorials listener 
 ```
+
+### Launch Files and checking service
+```bash
+$ source /opt/ros/humble/setup.bash
+$ cd ~/ros_ws
+$ source ./install/setup.bash
+# Run the publisher in terminal#1
+$ ros2 launch beginner_tutorials service_launch.py publish_freq:=500
+# Run the subscriber in terminal#2 (Split the terminal and source ROS2 and the workspace setup.bash)
+ros2 run beginner_tutorials listener
+#Open  terminal#3 and type the following
+$ ros2 service call /modify_string beginner_tutorials/srv/ModifyString  "{input_string: 'Abrar'}"
+```
+
 
 ### Check style guidelines
 ```bash
