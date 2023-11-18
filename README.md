@@ -45,3 +45,10 @@ $ cppcheck --enable=all --std=c++17 --suppress=missingIncludeSystem $( find . -n
 # cpplint
 $ cpplint --filter=-build/c++11,+build/c++17,-build/namespaces,-build/include_order  src/*.cpp >  results/cpplint.txt
 ```
+
+### Buidling Doxygen Documentation
+```bash
+$ cd ~/ros_ws
+#Run the colcon build on the doxygen docs cmake target
+$ colcon build --packages-select beginner_tutorials --cmake-target docs
+```
