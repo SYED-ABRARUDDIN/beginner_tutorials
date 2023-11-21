@@ -1,0 +1,4 @@
+string input_string  # Define request type as a string
+---
+string output_string  # Define response type as a string
+
