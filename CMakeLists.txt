@@ -11,10 +11,14 @@ execute_process(COMMAND cmake -E create_symlink
                 "${PROJECT_SOURCE_DIR}/compile_commands.json")
 
 # find dependencies
+find_package(tf2_ros REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
 
 find_package(Doxygen)
 if ( DOXYGEN_FOUND )
@@ -51,7 +55,7 @@ doxygen_add_docs(docs           # target name
 
 
 add_executable(talker src/publisher.cpp)
-ament_target_dependencies(talker rclcpp std_msgs)
+ament_target_dependencies(talker rclcpp std_msgs geometry_msgs tf2 tf2_ros) 
 
 add_executable(listener src/subscriber.cpp)
 ament_target_dependencies(listener rclcpp std_msgs)
@@ -70,13 +74,29 @@ install(TARGETS
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-
   set(ament_cmake_copyright_FOUND TRUE)
-
   set(ament_cmake_cpplint_FOUND TRUE)
+  set(ament_cmake_flake8_FOUND TRUE)
+  set(ament_cmake_uncrustify_FOUND TRUE)
+  set(ament_cmake_lint_cmake_FOUND TRUE)
+  set(ament_cmake_xmllint_FOUND TRUE)
+
+  find_package(ament_cmake_gtest REQUIRED)
+
+  ament_add_gtest(${PROJECT_NAME}_tutorial_test test/publisher_test.cpp)
   ament_lint_auto_find_test_dependencies()
+  ament_target_dependencies(${PROJECT_NAME}_tutorial_test rclcpp)
+  ament_export_dependencies(rosidl_default_runtime)
+
+  rosidl_get_typesupport_target(cpp_typesupport_target
+    ${PROJECT_NAME} rosidl_typesupport_cpp)
+  target_link_libraries(${PROJECT_NAME}_tutorial_test "${cpp_typesupport_target}")
 endif()
+ 
 
 ament_package()
