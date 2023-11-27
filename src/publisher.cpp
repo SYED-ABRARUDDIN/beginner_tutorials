@@ -21,14 +21,19 @@
  */
 
 
-#include "beginner_tutorials/srv/modify_string.hpp"   // Include service message
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/static_transform_broadcaster.h>
 
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "beginner_tutorials/srv/modify_string.hpp"
+#include <chrono>
+#include <cstddef>
+#include <functional>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <memory>
+#include <rclcpp/logging.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <std_msgs/msg/string.hpp>
+#include <string>
 
 
 using namespace std::chrono_literals;
@@ -49,7 +54,7 @@ class MinimalPublisher : public rclcpp::Node {
 
         /*Retrieve the publish_frequency parameter from the
          parameter server in milliseconds*/ 
-        this->declare_parameter<int>("publish_frequency_ms");
+        this->declare_parameter<int>("publish_frequency_ms", 500);
               RCLCPP_INFO_STREAM(
           this->get_logger(), "current frequency "<<
          this->get_parameter("publish_frequency_ms").as_int());
@@ -75,6 +80,9 @@ class MinimalPublisher : public rclcpp::Node {
     }
     // Default publish frequency: 500 milliseconds
         publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
+        tf_broadcaster_ =
+            std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(publish_frequency_ms_),
             std::bind(&MinimalPublisher::timer_callback, this));
@@ -93,6 +101,28 @@ class MinimalPublisher : public rclcpp::Node {
         RCLCPP_INFO(this->get_logger(),
                      "Publishing: '%s'", message.data.c_str());
         publisher_->publish(message);
+        this->broadcastTF();
+    }
+
+
+        void broadcastTF() {
+        geometry_msgs::msg::TransformStamped transformStamped;
+        transformStamped.header.frame_id = "world";
+        transformStamped.child_frame_id = "talk";
+        transformStamped.header.stamp = this->now();
+
+        // Set non-zero translation
+        transformStamped.transform.translation.x = 1.0;
+        transformStamped.transform.translation.y = 2.0;
+        transformStamped.transform.translation.z = 3.0;
+
+        // Set non-zero rotation (quaternion)
+        transformStamped.transform.rotation.x = 0.0;
+        transformStamped.transform.rotation.y = 0.0;
+        transformStamped.transform.rotation.z = 0.707;
+        transformStamped.transform.rotation.w = 0.707;
+
+        tf_broadcaster_->sendTransform(transformStamped);
     }
 
     /**
@@ -116,6 +146,7 @@ class MinimalPublisher : public rclcpp::Node {
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
     rclcpp::Service<beginner_tutorials::srv::ModifyString>::SharedPtr service_;
+    std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_broadcaster_;
 
     std_msgs::msg::String message;
 };
