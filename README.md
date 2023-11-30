@@ -70,14 +70,14 @@ $ cat log/latest_test/beginner_tutorials/stdout_stderr.log
 ```
 
 ### ROS2 Bag Functionality
-This package supports recording and playback of ros2 bags. The launch file has been modified to support ros2 bag recording. To record use the `ros2_bag_start` parameter (True/False).
+This package supports recording and playback of ros2 bags. The launch file has been modified to support ros2 bag recording. To record use the `record_bag` parameter (True/False).
 
 ```bash
 $ source /opt/ros/humble/setup.bash
 $ cd ~/ros_ws
 $ source ./install/setup.bash
 # Run the launch file in terminal with the ros2_bag_start parameter as true
-$ ros2 launch beginner_tutorials talkernode.launch.py ros2_bag_start:=True
+$ ros2 launch beginner_tutorials service_launch.py record_bag:=True
 ```
 The above ros2 bag  can be found in the workspace directory where the command was run.
 To inspect and playback the ros2 bag.
